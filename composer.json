@@ -1,0 +1,22 @@
+{
+    "name": "universal/forms",
+    "description": "The universal form encapsulation based on bootstrap is currently only applicable to thinkphp6.0 and above frameworks",
+    "authors": [
+        {
+            "name": "Duyun",
+            "email": "987772927@qq.com",
+            "homepage": "https://www.yunmeitiweb.com",
+            "role": "Developer"
+        }
+    ],
+    "license": "Apache-2.0",
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "universal\\forms\\": "src/"
+        }
+    }
+}
