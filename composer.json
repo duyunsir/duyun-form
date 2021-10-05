@@ -1,6 +1,7 @@
 {
     "name": "duyun/forms",
     "description": "The universal form encapsulation based on bootstrap is currently only applicable to thinkphp6.0 and above frameworks",
+    "keywords": ["duyun", "form", "万能表单", "bootstrap"],
     "authors": [
         {
             "name": "Duyun",
@@ -9,13 +10,11 @@
             "role": "Developer"
         }
     ],
-    "license": "Apache-2.0",
-    "type": "think-extend",
+    "license": "MIT",
+    "type": "library",
     "minimum-stability": "dev",
     "require": {
-        "php": ">=7.3.0",
-        "topthink/think-installer": "^2.0",
-        "topthink/framework": "^6.0"
+        "php": ">=7.3.0"
     },
     "autoload": {
         "psr-4": {
