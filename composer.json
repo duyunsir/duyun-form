@@ -1,6 +1,6 @@
 {
     "name": "duyun/forms",
-    "description": "The duyun form encapsulation based on bootstrap is currently only applicable to thinkphp6.0 and above frameworks",
+    "description": "The universal form encapsulation based on bootstrap is currently only applicable to thinkphp6.0 and above frameworks",
     "authors": [
         {
             "name": "Duyun",
