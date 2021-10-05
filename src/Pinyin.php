@@ -9,7 +9,7 @@
  *      echo $py->getFirstPY("输出汉字首拼音"); //schzspy
  *+------------------------------------------------------
  */
-namespace universal\forms;
+namespace duyun\forms;
 class Pinyin {
     protected static $pylist = array(
     'a'=>-20319,'ai'=>-20317,'an'=>-20304,'ang'=>-20295,'ao'=>-20292,
