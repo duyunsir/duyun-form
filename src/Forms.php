@@ -25,7 +25,7 @@
  */
 declare (strict_types = 1);
 
-namespace duyun\forms;
+namespace duyun\yunsaas;
 use think\facade\Route;
 use think\helper\Str;
 trait Forms

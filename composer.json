@@ -1,7 +1,7 @@
 {
-    "name": "duyun/forms",
-    "description": "The universal form encapsulation based on bootstrap is currently only applicable to thinkphp6.0 and above frameworks",
-    "keywords": ["duyun", "form", "万能表单", "bootstrap"],
+    "name": "duyun/yunsaas",
+    "description": "Develop a set of multi-functional application module generation and universal form generation package based on thinkphp6 framework",
+    "keywords": ["duyun", "form", "万能表单", "bootstrap","yunsaas"],
     "authors": [
         {
             "name": "Duyun",
@@ -18,7 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "duyun\\forms\\": "src/"
+            "duyun\\yunsaas\\": "src/"
         }
     }
 }

@@ -25,7 +25,7 @@
  */
 declare (strict_types = 1);
 
-namespace duyun\forms;
+namespace duyun\yunsaas;
 use think\facade\Cache;
 use think\facade\View;
 trait Common
