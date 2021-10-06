@@ -259,4 +259,86 @@ trait Common
                 break;
         }
     }
+    
+    private function get_point_value($data = [], string $str = '')
+    {
+        $pos = strpos($str, '.');
+        if (false === $pos) {
+            return isset($data[$str]) ? $data[$str] : false;
+        } else {
+            $key = mb_substr($str, 0, $pos);
+            if (isset($data[$key])) {
+                return $this->get_point_value($data[$key], mb_substr($str, $pos + 1));
+            } else {
+                return false;
+            }
+        }
+    }
+    /**
+     * 用于下拉列表,返回一个array，每一个层级前面递增一个-
+     * 作者 qq:987772927
+     * @param  unknown 种子
+     * @param  number 起始父id
+     */
+    public function selectTree($param,$title = 'text', $pid = 0, $lvl = 0)
+    {
+
+        static $res = [];
+        foreach ($param as $key => $vo) {
+            if ($pid == $vo['pid']) {
+                foreach (explode(',', $title) as $key => $value) {
+                    if (isset($vo[$value])) {
+                        $vo[$value] = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $lvl) . '&nbsp;&nbsp;&nbsp;&nbsp;┣' . $vo[$value];
+                    }
+                }
+                $res[] = $vo;
+                $temp = $lvl + 1;
+                $this->selectTree($param,$title,$vo['id'], $temp);
+            }
+        }
+        return $res;
+    }
+    /**
+     * [ArrTree 将数据按照所属关系封装 tree树形结构 ]
+     * @param array  $data [数组]
+     * @param string  $field  [要获取的字段值]
+     * @param integer  $pid  [description]
+     * @param integer $deep [description]
+    */
+    public function ArrTree($data,$field = 'id',$pid=1,$deep=0) {
+        $tree=[];
+        foreach ($data as $row) {
+           if($row['pid']==$pid){
+                $tree[]=[
+                    'id' => $row['id'],
+                    'pid' => $row['pid'],
+                    'title' => $row['title'],
+                    'value' => $row[$field],
+                    'child' => $this->ArrTree($data,$field,$row['id'],$deep+1),
+                    'deep' => $deep,
+                ];
+           }
+        }
+        return $tree;
+    }
+    public function Keywords($tit='',$con='',$nu='15')
+    {
+        $ch = curl_init();
+        $url = 'http://apis.baidu.com/xlongwei/open/keywords';
+        $header = array(
+            'Content-Type:application/x-www-form-urlencoded',
+            'apikey: a0a437f18d30966bb475b94f5c0c5bc6',
+        );
+        $data = "title=".$tit."&content=".$con."&num=".$nu;
+        // 添加apikey到header
+        curl_setopt($ch, CURLOPT_HTTPHEADER  , $header);
+        // 添加参数
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // 执行HTTP请求
+        curl_setopt($ch , CURLOPT_URL , $url);
+        $res = curl_exec($ch);
+
+        return($res);
+    }
 }
