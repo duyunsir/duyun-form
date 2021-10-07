@@ -28,6 +28,7 @@ declare (strict_types = 1);
 namespace duyun\yunsaas;
 use think\facade\Route;
 use think\helper\Str;
+use DbConfig;
 trait Forms
 {
     /**
@@ -98,13 +99,13 @@ trait Forms
                 }
                 if('files' == $tmp['type'] && isset($tmp['config']['accept']) && isset($extensions[$tmp['config']['accept']])){
                     $tmp['config']['extensions'] = $extensions[$tmp['config']['accept']];
-                    switch (\yuncms\Config::get('system.upload_storage')){
+                    switch (DbConfig::get('system.upload_storage')){
                         case 'local':
                             $tmp['config']['uploadUrl'] = yunurl("/upload/index");
                             $tmp['config']['formData'] = json_encode([
                                 'token' => '',
                                 'fid' => $tmp['id'],
-                                'uploadtype' => \yuncms\Config::get('system.upload_storage'),
+                                'uploadtype' => DbConfig::get('system.upload_storage'),
                             ]);
                             $tmp['config']['chunked'] = 'true';
                             break;
@@ -116,7 +117,7 @@ trait Forms
                                 $tmp['config']['formData'] = json_encode([
                                     'token' => (new \Qiniu\Auth(config('filesystem.disks.qiniu.accessKey'), config('filesystem.disks.qiniu.secretKey')))->uploadToken(config('filesystem.disks.qiniu.bucket')),
                                     'fid' => $tmp['id'],
-                                    'uploadtype' => \yuncms\Config::get('system.upload_storage'),
+                                    'uploadtype' => DbConfig::get('system.upload_storage'),
                                 ]);
                                 $tmp['config']['chunked'] = 'true';
                             }catch(\Exception $e) {
@@ -143,7 +144,7 @@ trait Forms
                             $tmp['config']['formData'] = json_encode([
                                 'token'         => '',
                                 'fid'           => $tmp['id'],
-                                'uploadtype'    => \yuncms\Config::get('system.upload_storage'),
+                                'uploadtype'    => DbConfig::get('system.upload_storage'),
                                 'key'           => $dir.date('YmdHis').md5(Str::random($length = 16)),
                                 'policy'        => base64_encode(json_encode($policy)),
                                 'OSSAccessKeyId'=> config('filesystem.disks.alioss.access_id'),
