@@ -28,7 +28,6 @@ declare (strict_types = 1);
 namespace duyun\yunsaas;
 use think\facade\Route;
 use think\helper\Str;
-use DbConfig;
 trait Forms
 {
     /**
