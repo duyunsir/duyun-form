@@ -57,7 +57,7 @@ trait Common
         $app  =($this->request::post('app/s'))?:$this->request::app();
         $model = '\app\\'.trim(str_replace('/', '\\', $app)).'\model\\' . trim($this->request::post('model/s'));
         if (!class_exists($model)) $this->error('参数错误');
-        $result = $model::getPaginate($this->request::post('where',[],'htmlspecialchars_decode'), $this->request::post('rows',1000, 'intval'), $this->request::post('order/a'));
+        $result = $model::getPaginate($this->request::post('where',[],'htmlspecialchars_decode'), $this->request::post('rows',20, 'intval'), $this->request::post('order/a'));
         $result['rows'] = $result['data'];
         unset($result['data']);
         return $result;
@@ -71,10 +71,9 @@ trait Common
     protected function fetchform($data = [], array $config = [])
     {
         $form = $this->getform($data, $config);
+        $form['_data'] = $data;
         $this->assign($form);
-        $this->assign('_data', $data);
-        // dd($form);
-        return View::fetch(yun_decrypt('giuYuncmsan0VyxuT09WaieacTkVX0ifx8d5tZzsGXad2Ils='));
+        return View::fetch(yun_decrypt('Z64kDdP6ip0gy8BLrUw9ILwEAl6ELRwQgmSrnedHTcGxNhljA6v/MpTbbDgIT32ldA8lB0nNcb8='));
     }
     /**
      * [yunadd 通用添加]
