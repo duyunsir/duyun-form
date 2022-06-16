@@ -30,30 +30,30 @@ use phpseclib\Crypt\DES;
 class Crypt
 {
 
-    public static function encode($data, $key='yuncms', $expire = 0)
+    public static function encode($data, $key='yuncms',$expire = false)
     {
         $Crypt = new DES();
         $Crypt->setKey(md5($key));
-        // if ((int)$expire) {
-        //     $expire = (int)$expire + time();
-        //     $data = $expire . '_' . serialize($data);
-        // }else{
+        if ($expire) {
+            $expire = (int)$expire + time();
+            $data = $expire . '_' . serialize($data);
+        }else{
             $data = '0_' . serialize($data);
-        // }
+        }
         return str_replace('+', 'Yuncms', base64_encode($Crypt->encrypt($data)));
     }
 
-    public static function decode($data, $key='yuncms')
+    public static function decode($data, $key='yuncms',$back=false)
     {
         $Crypt = new DES();
         $Crypt->setKey(md5($key));
         $str = $Crypt->decrypt(base64_decode(str_replace('Yuncms', '+', $data))?:0);
-        $pos = mb_strpos($str, '_');
-        $expire = (int)mb_substr($str, 0, $pos);
-        if ($expire == 0 || $expire > time()) {
-            return unserialize(mb_substr($str, $pos + 1));
+        if($str){
+            $pos = mb_strpos($str, '_');
+            $expire = (int)mb_substr($str, 0, $pos);
+            if ($expire == 0 || $expire > time()) return unserialize(mb_substr($str, $pos + 1));
         }
-        return false;
+        return $back;
     }
 
 }

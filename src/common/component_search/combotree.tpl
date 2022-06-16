@@ -2,7 +2,7 @@
 <style>.comboTreeDropDownContainer ul {margin-left: 12px !important;}</style>
 <link rel="stylesheet" type="text/css" href="{$Public}css/plugins/combo-tree/style.css"/>
 <input class="form-control help-block m-b-none" type="text" id="{$_ns}" placeholder="<?php echo (isset($_field['config']['prompt']) && ($_field['config']['prompt'] !== '')?$_field['config']['prompt']:''); ?>" autocomplete="off" {if condition='$_field.config.disabled eq 1'} disabled {/if} {if condition='$_field.config.readonly eq 1'} style="cursor: pointer !important;background-color:#fff !important;" readonly {/if}{if condition='$_field.config.required eq 1'} required {/if}/>
-<input id="{$_ns}_comboTree" class="form-control" type="hidden" name="{$_field.field}" value="{$_field.value}">
+<input id="{$_ns}_comboTree" class="form-control" type="hidden" name="{$_field.field}@{$_field.condition}" value="{$_field.value}">
 <script src="{$Public}js/plugins/combo-tree/comboTreePlugin.js"></script>
 <script>
 	$(function() {

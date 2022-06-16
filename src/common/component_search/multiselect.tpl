@@ -2,14 +2,14 @@
 <?php $_field['config']['editable'] = $_field['config']['editable']??0;if($_field['config']['editable'] == '1'): ?>
 <div class="form-inline">
     <div class="form-group">
-        <input type="text" class="form-control help-block m-b-none" id="{$_ns}_obj" name="{$_field.field}" value="{$_field.value}" placeholder="<?php echo (isset($_field['config']['prompt']) && ($_field['config']['prompt'] !== '')?$_field['config']['prompt']:''); ?> " {if condition='$_field.config.disabled eq 1'} disabled {/if} {if condition='$_field.config.readonly eq 1'} readonly {/if}{if condition='$_field.config.required eq 1'} required {/if} style="width: 100%;z-index: 99;">
+        <input type="text" class="form-control help-block m-b-none" id="{$_ns}_obj" name="{$_field.field}@{$_field.condition}" value="{$_field.value}" placeholder="<?php echo (isset($_field['config']['prompt']) && ($_field['config']['prompt'] !== '')?$_field['config']['prompt']:''); ?> " {if condition='$_field.config.disabled eq 1'} disabled {/if} {if condition='$_field.config.readonly eq 1'} readonly {/if}{if condition='$_field.config.required eq 1'} required {/if} style="width: 100%;z-index: 99;">
     </div>
     <div class="form-group" >
         <div id="{$_ns}" class="form-control" style="width: 100%;margin-top: 5px;"></div>
     </div>
 </div>
 <?php else: ?>
-<input type="hidden" name="{$_field.field}" value="{$_field.value}">
+<input type="hidden" name="{$_field.field}@{$_field.condition}" value="{$_field.value}">
 <div id="{$_ns}" class="form-control help-block m-b-none" style="width: 100%;z-index: 9;"></div>
 <?php endif;?>
 <script src="{$Public}js/plugins/fmulselect/fmulselect.js"></script>

@@ -1,11 +1,11 @@
 <link href="{$Public}css/plugins/fmulselect/FMulSelectUI.min.css" rel="stylesheet">
 <?php $_field['config']['editable'] = $_field['config']['editable']??0;if($_field['config']['editable'] == '1'): ?>
-<div style="width: 100%;height: 34px;display: flex;align-content: center;flex-wrap: nowrap;justify-content: flex-start;align-items: center;margin-top: 7px;">
-    <input type="text" class="form-control help-block m-b-none" id="{$_ns}_obj" name="{$_field.field}" value="{:htmlspecialchars_decode($_field.value)}" placeholder="<?php echo (isset($_field['config']['prompt']) && ($_field['config']['prompt'] !== '')?$_field['config']['prompt']:''); ?> " {if condition='$_field.config.disabled eq 1'} disabled {/if} {if condition='$_field.config.readonly eq 1'} readonly {/if}{if condition='$_field.config.required eq 1'} required {/if} style="width: 50%;margin-top: 3px;">
-    <div id="{$_ns}" class="form-control" style="width: 50%;"></div>
+<div style="width: 100%;height: 34px;display: flex;align-content: center;flex-wrap: nowrap;justify-content: flex-start;align-items: center;">
+    <input type="text" class="form-control help-block m-b-none" id="{$_ns}_obj" name="{$_field.field}@{$_field.condition}" value="{$_field.value}" placeholder="<?php echo (isset($_field['config']['prompt']) && ($_field['config']['prompt'] !== '')?$_field['config']['prompt']:''); ?> " {if condition='$_field.config.disabled eq 1'} disabled {/if} {if condition='$_field.config.readonly eq 1'} readonly {/if}{if condition='$_field.config.required eq 1'} required {/if} style="width: 50%;margin-top: 3px;">
+    <div id="{$_ns}" class="form-control" style="width: 50%;margin-top: 1px;"></div>
 </div>
 <?php else: ?>
-<input type="hidden" name="{$_field.field}" value="{:htmlspecialchars_decode($_field.value)}">
+<input type="hidden" name="{$_field.field}@{$_field.condition}" value="{$_field.value}">
 <div id="{$_ns}" class="form-control help-block m-b-none" style="width: 100%;"></div>
 <?php endif;?>
 <script type="text/javascript">
@@ -59,7 +59,7 @@
             var V = $(this).attr('data-text');
             var F = $(this).data('source');
             var Mu = $(this).attr('data-value');
-            $('input[name="{$_field.field}"]').val(Mu);
+            $('input[name="{$_field.field}@{$_field.condition}"]').val(Mu);
             L.find('.FMulSelectBox-items').removeClass('active').eq(Q - 1).attr('data-id', U).attr('data-text', V).attr('data-value', Mu).html(V).end().eq(Q).addClass('active').end().eq(Q - 1).nextAll('.FMulSelectBox-items').attr('data-id', '').attr('data-text', '').attr('data-value', '').html('请选择');
             if (S.next().length) {
                 S.next().removeClass('FMulSelectUI-hide').siblings().addClass('FMulSelectUI-hide');
@@ -114,7 +114,7 @@
                         "childs": "child"
                     }
                 });
-                $('#{$_ns}').FMulSelectSetVal([{:json_encode(htmlspecialchars_decode($_field.value),JSON_UNESCAPED_SLASHES)}]);
+                $('#{$_ns}').FMulSelectSetVal([{:json_encode($_field.value,JSON_UNESCAPED_SLASHES)}]);
             }
         });
     });

@@ -1,4 +1,4 @@
-<ul class="upload-ul clearfix" style="padding-left: 0px;">
+<ul class="upload-ul clearfix sortable-list connectList" style="padding-left: 0px;">
 	<?php if(is_array($_field['value'])): foreach($_field['value'] as $ke => $_vu):?>
 	<li id="fileBox_{$_vu.id}" class="diyUploadHover" data-id="{$_vu.id}"><div class="viewThumb"><div class="diyBar" style="display: none;"></div><p class="diyControl" style="line-height: 16px;"><span class="diyCancel"><i></i></span><span class="diyLeft"><i></i></span><span class="diyRight"><i></i></span></p>{if condition='$_vu.type eq "video"'} <video src="{$_vu.url|default=''}" controls="controls"></video>{else/}<img src="{$_vu.url|default=''}">{/if}</div>
 	</li>
@@ -58,7 +58,11 @@
     </li>
 </ul>
 <input id="{$_ns}_hidden" name="{$_field.field}" type="hidden" class="form-control help-block m-b-none" value="" {if condition='$_field.config.required eq 1'} required {/if}>
+<script src="{$Public}js/jquery-ui.min.js"></script>
 <script>
+	$(document).ready(function(){$(".sortable-list").sortable({scroll:true,/*axis:'y',*/cursor: "move",items :".diyUploadHover",opacity: 0.6,revert: true,connectWith:".connectList",stop: function(event, ui) {
+        document.getElementById('{$_ns}_hidden').value=$(this).sortable("toArray").join(',').replace(/fileBox_/g, "");
+    }}).disableSelection()});
     $(function(){
         var $tgaUpload = $('#{$_ns}').diyUpload({
             url:'{$_field.config.uploadUrl|default=""}',

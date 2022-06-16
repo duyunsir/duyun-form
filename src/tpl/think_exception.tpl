@@ -395,7 +395,7 @@ if (!function_exists('echo_value')) {
     <?php } ?>
 
     <div class="copyright" style="text-align: center;">
-        <h1 style="font-size: 25rem;"><i class="fa fa-frown-o" aria-hidden="true"></i></h1>
+        <h1 style="font-size: 25rem;"><i class="far fa-frown" aria-hidden="true"></i></h1>
     </div>
     <?php if (\think\facade\App::isDebug()) { ?>
     <script>

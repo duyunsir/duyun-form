@@ -35,17 +35,15 @@ class DbConfig
     public static function get($name)
     {
         static $config;
-        if (!$config) {
-            $config = self::config();
-        }
+        if (!$config) $config = self::config();
         $name = strtolower($name);
         return self::get_point_value($config, $name);
     }
     public static function config($refresh = false)
     {
-        if ($refresh || !$config = Cache::get(env('database.prefix').'config')) {
+        if ($refresh || !$config = Cache::get(env('app_key',str_replace(['http://','https://','.'],'',request()->domain())).'config')) {
             $config = self::build();
-            Cache::set(env('database.prefix').'config', $config);
+            Cache::set(env('app_key',str_replace(['http://','https://','.'],'',request()->domain())).'config', $config);
         }
         return $config;
     }

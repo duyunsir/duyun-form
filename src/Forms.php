@@ -34,9 +34,10 @@ trait Forms
      * [getform 返回表单]
      * @param  array  $data   字段数据信息
      * @param  array  $config 配置信息
+     * @param  array  $ret 结果是否json格式输出
      * @return array|json     返回生成的表单数据
      */
-    protected function getform($data = [], array $config = [])
+    protected function getform($data = [], array $config = [],$ret = false)
     {
         $res = [];
         $Model = yun_decrypt('95PLmxbJPISzSx9DTspi0pPCXD0afkKOtyPkC/e8fIWlcFBU3SJq5w==');
@@ -53,6 +54,7 @@ trait Forms
                     'id'=>$value['id'],
                     'config'=>$value['config'],
                     'title'=>$value['title'],
+                    'condition'=>$value['condition'],
                     'remark'=>$value['remark'],
                     'type'=>substr($value['type'], 5)
                 ];
@@ -81,12 +83,12 @@ trait Forms
                         break;
 
                     case '3':
-                        if ($value['subtable'] && $value['extfield']) {
-                            $_value = $data[$value['subtable']][$value['extfield']];
-                        } elseif ($value['extfield']) {
-                            $_value = $data[$value['extfield']];
-                        } elseif ($value['subtable']) {
-                            $_value = $data[$value['subtable']];
+                        if (!empty($data) && $value['subtable'] && $value['extfield']) {
+                            $_value = $data[$value['subtable']][$value['extfield']]??'';
+                        } elseif (!empty($data) && $value['extfield']) {
+                            $_value = $data[$value['extfield']]??'';
+                        } elseif (!empty($data) && $value['subtable']) {
+                            $_value = $data[$value['subtable']]??'';
                         } else {
                             $_value = $data;
                         }
@@ -120,11 +122,11 @@ trait Forms
                                 ]);
                                 $tmp['config']['chunked'] = 'true';
                             }catch(\Exception $e) {
-                                $this->error('请配置七牛云上传信息');
+                                return ($ret)?:$this->error('请配置七牛云上传信息');
                             }
                             break;
                         case 'alioss':
-                            if (!config('filesystem.disks.alioss.bucket') || !config('filesystem.disks.alioss.endpoint')) $this->error('请配置阿里云上传信息');
+                            if (!config('filesystem.disks.alioss.bucket') || !config('filesystem.disks.alioss.endpoint')) return ($ret)?:$this->error('请配置阿里云上传信息');
                             $dir = str_replace('\\', '/', config('filesystem.disks.alioss.dir'));
                             $expire = 60;  //设置该policy超时时间是10s. 即这个policy过了这个有效时间，将不能访问。
                             $end = time()+ 8*3600 + $expire;
@@ -213,11 +215,11 @@ trait Forms
                                         ]);
                                         $tmp['config']['chunked'] = 'true';
                                     }catch(\Exception $e) {
-                                        $this->error('请配置七牛云上传信息');
+                                        return ($ret)?:$this->error('请配置七牛云上传信息');
                                     }
                                     break;
                                 case 'alioss':
-                                    if (!config('filesystem.disks.alioss.bucket') || !config('filesystem.disks.alioss.endpoint')) $this->error('请配置阿里云上传信息');
+                                    if (!config('filesystem.disks.alioss.bucket') || !config('filesystem.disks.alioss.endpoint')) return ($ret)?:$this->error('请配置阿里云上传信息');
                                     $dir = str_replace('\\', '/', config('filesystem.disks.alioss.dir'));
                                     $expire = 60;  //设置该policy超时时间是10s. 即这个policy过了这个有效时间，将不能访问。
                                     $end = time()+ 8*3600 + $expire;
@@ -297,7 +299,7 @@ trait Forms
             $res['namespace'] = ns();
             return $res;
         } else {
-            $this->error('表单不存在或者配置错误！');
+            return ($ret)?:$this->error('表单不存在或者配置错误！');
         }
     }
 }

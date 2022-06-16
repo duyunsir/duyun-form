@@ -52,14 +52,17 @@ trait Common
      * [modeldata 获取模型数据]
      * @return array 数据数组
      */
-    protected function modeldata()
+    protected function modeldata(array $input)
     {
-        $app  =($this->request::post('app/s'))?:$this->request::app();
-        $model = '\app\\'.trim(str_replace('/', '\\', $app)).'\model\\' . trim($this->request::post('model/s'));
+        $method  = (isset($input['method']) && !empty($input['method']))?$input['method']:'getPaginate';
+        $app  = (isset($input['app']) && !empty($input['app']))?$input['app']:$this->request::app();
+        $model = '\\app\\'.trim(str_replace('/', '\\', $app)).'\\model\\' . trim($input['model']??'');
         if (!class_exists($model)) $this->error('参数错误');
-        $result = $model::getPaginate($this->request::post('where',[],'htmlspecialchars_decode'), $this->request::post('rows',20, 'intval'), $this->request::post('order/a'));
-        $result['rows'] = $result['data'];
-        unset($result['data']);
+        $result = $model::$method(searchcriteria($input['where']??[]), $this->request::post('rows/d',20), $input['order']??[]);
+        if(isset($result['data']) && !empty($result['data'])){
+            $result['rows'] = $result['data'];
+            unset($result['data']);
+        }
         return $result;
     }
     /**
@@ -258,7 +261,7 @@ trait Common
                 break;
         }
     }
-    
+
     private function get_point_value($data = [], string $str = '')
     {
         $pos = strpos($str, '.');

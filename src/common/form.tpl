@@ -1,13 +1,15 @@
 {include file="../vendor/duyun/yunsaas/src/common/header.tpl" /}
 <link href="{$Public}css/plugins/iCheck/all.css" rel="stylesheet">
-<script type="text/javascript"> 
+<style>.select2-container{min-width:14rem;}.input-group > .select2-hidden-accessible:first-child + .select2-container--bootstrap > .selection > .select2-selection, .input-group > .select2-hidden-accessible:first-child + .select2-container--bootstrap > .selection > .select2-selection.form-control{border-radius: 0;}</style>
+<script type="text/javascript">
     // var index = parent.layer.getFrameIndex(window.name);
     // parent.layer.title('{$FORM|default="云CMS"}-{$_form.title}', index);
     um = '';
-</script> 
+    localStorage.setItem('csrf-token', '{:token()}');
+</script>
 </head>
 <body class="white-bg">
-    <div class="wrapper wrapper-content animated {$Animat|default='fadeIn'}">
+    <div class="wrapper wrapper-content animate__animated animate__{$Animat|default='fadeIn'}">
         <div class="row">
             <div class="col-sm-12">
             	{php}$yc = 0;{/php}
@@ -30,8 +32,8 @@
                             <div id="{$_form.formtime}-{$key}" class="tab-pane {if condition='$yc eq 0'}active{/if}">{php}$yc++;{/php}
                             <div class="panel-body ">
                         {/if}
-                                
-                                	<div class="row" style="padding: 15px;">
+
+                                	<div class="row" style="padding: 0 15px;">
                                 	{foreach $_fields as $key=>$_field }
 	                                	{php}
 										$_nowtime = time();
@@ -44,11 +46,11 @@
 										{if condition='$_field.type eq "hidden"'}
 											<input type="hidden" name="{$_field.field}" value="{$_field.value}" />
 										{else/}
-										
-    										{if condition='($_field.config.is_group eq 2 OR $_field.config.is_group eq 0) AND $_form.is_tab neq 1'}<div class="{$_field.config.grid|default='col-sm-12'}">{/if}
+
+    										<div class="col-xs-12 {$_field.config.grid|default='col-sm-12'}">
 												<div class="form-group">
-													<label {if condition='$_form.is_tab eq 0'}style="width: auto;padding-left:0;"{/if} for="{$_ns}" class="col-sm-2 control-label">{if condition='$_field.config.required eq 1'} <span class="xin" style="color: red;font-size: 13px;margin-left: -10px;">*</span> {/if}{$_field.title}</label>
-													<div class="{if condition='$_form.is_tab eq 1'}col-sm-9{/if} yunsaasvalidate">
+													<label style="width: auto;padding-left:0;" for="{$_ns}" class="col-xs-12 col-sm-2 control-label">{if condition='$_field.config.required eq 1'} <span class="xin" style="color: red;font-size: 13px;margin-left: -10px;">*</span> {/if}{$_field.title}</label>
+													<div class="col-xs-12 col-sm-12 yunsaasvalidate" style="padding-left: 0;">
 														{switch $_field.type}
 															{case value="bool"}
 															    <!-- 布尔类型 -->
@@ -90,12 +92,12 @@
 															    <!-- 下拉选项（数据源） -->
 									                            {include file="../vendor/duyun/yunsaas/src/common/component/combotree.tpl" type='' /}
 									                        {/case}
-															
+
 															{case value="files"}
 															    <!-- 资源上传 -->
 									                            {include file="../vendor/duyun/yunsaas/src/common/component/files.tpl" type='' /}
 									                        {/case}
-															
+
 															{case value="datetimebox"}
 															    <!-- 时间日期 -->
 									                            {include file="../vendor/duyun/yunsaas/src/common/component/datetimebox.tpl" type='' /}
@@ -117,7 +119,7 @@
 									                            {include file="../vendor/duyun/yunsaas/src/common/component/button.tpl" type='' /}
 									                        {/case}
 															{case value="iconpanel"}
-															    <!-- 按钮 -->
+															    <!-- ico图标面板 -->
 									                            {include file="../vendor/duyun/yunsaas/src/common/component/iconpanel.tpl" type='' /}
 									                        {/case}
 															{case value="keywords"}
@@ -128,14 +130,12 @@
 															<span style="color:red;"> {$_field.type} 表单类型不存在 请联系QQ:987772927 </span>
 														{/switch}
 														{php}if(!(empty($_field['remark']) || ($_field['remark'] instanceof \think\Collection && $_field['remark']->isEmpty()))): {/php}
-															<span class="help-block m-b-none"><i class="fa fa-info-circle"></i> {$_field.remark}</span>
+															<span title="{$_field.remark}" data-toggle="tooltip" class="help-block m-b-none" style="text-overflow: ellipsis;white-space: nowrap; overflow: hidden;"><i class="fa fa-info-circle"></i> {$_field.remark}</span>
 														{php} endif; {/php}
 														<div class="hr-line-dashed"></div>
 													</div>
 												</div>
-											{if condition='($_field.config.is_group eq 1 OR $_field.config.is_group eq 0) AND $_form.is_tab neq 1'}
 											</div>
-											{/if}
 										{/if}
 									{/foreach}
 									</div>
@@ -153,7 +153,6 @@
             </div>
         </div>
     </div>
-    {include file="../vendor/duyun/yunsaas/src/common/footer.tpl" /}
     <script src="{$Public}js/plugins/iCheck/icheck.min.js"></script>
     <script src="{$Public}js/webuploader.js"></script>
 	<script src="{$Public}js/diyUpload.js?v=1.2.2"></script>

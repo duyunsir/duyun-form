@@ -1,30 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <title>YunSaas云端管理系统</title>
-
-    <meta name="keywords" content="YunSaas云端管理系统">
-    <meta name="description" content="YunSaas云端管理系统">
-    <link rel="shortcut icon" href="/favicon.ico">
-    <link href="/static/resource/css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
-    <link href="/static/resource/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
-    <link href="/static/resource/css/animate.min.css" rel="stylesheet">
-    <link href="/static/resource/css/style.min.css?v=4.0.0" rel="stylesheet">
+{include file="../vendor/duyun/yunsaas/src/common/header.tpl" /}
 </head>
-
 <body class="gray-bg">
-    <div class="middle-box text-center animated fadeInDown">
+    <div class="middle-box text-center animate__animated animate__fadeInDown">
         <?php switch ($code) {?>
             <?php case 1:?>
-            <h1><i class="fa fa-smile-o" aria-hidden="true"></i></h1>
+            <h1><i class="far fa-smile"></i></h1>
             <?php break;?>
-            <?php case 0:?>
-            <h1><i class="fa fa-frown-o" aria-hidden="true"></i></h1>
+            <?php case 0 || 401:?>
+            <h1><i class="far fa-frown"></i></h1>
             <?php break;?>
         <?php } ?>
         <h3 class="font-bold"><?php echo(strip_tags($msg));?></h3>
